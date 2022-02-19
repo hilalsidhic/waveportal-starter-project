@@ -23,11 +23,25 @@ export default function App() {
     else {
       console.log("No authorized account found");
     }
-
     } catch(err){
       console.log(err);
     }
   }
+  const connectWallet = async ()=>{
+    try{
+      const { ethereum }=window;
+      if(!ethereum){
+        console.log("get metamask");
+        return;
+    }
+      const accounts = await ethereum.request({method: "eth_requestAccounts"});
+      console.log("connected to metamask",accounts[0]);
+      setcurrentAccount(accounts[0]);
+  }
+  catch(err){
+    console.log(err);
+  }
+}
   useEffect(() => {
     checkIfWindowIsConnected();
   }, [])
@@ -45,8 +59,8 @@ export default function App() {
         I am Hilal. Connect your Ethereum wallet and wave at me!
         </div>
 
-        <button className="waveButton" >
-          Wave at Me
+        <button className="waveButton" onClick={connectWallet} >
+          Connect to wallet
         </button>
       </div>
     </div>
